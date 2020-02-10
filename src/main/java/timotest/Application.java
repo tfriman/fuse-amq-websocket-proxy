@@ -1,8 +1,7 @@
 package timotest;
 
-import org.apache.activemq.ActiveMQConnectionFactory;
-import org.apache.activemq.camel.component.ActiveMQComponent;
-import org.apache.camel.component.jms.JmsConfiguration;
+import org.apache.camel.component.amqp.AMQPComponent;
+import org.apache.qpid.jms.JmsConnectionFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -18,15 +17,13 @@ public class Application {
     @Value("${amq.password}")
     private String password;
 
-    @Bean(name = "amqpws")
-    public ActiveMQComponent activeMQComponent() {
-        ActiveMQConnectionFactory factory = new ActiveMQConnectionFactory(userName, password, brokerUrl);
-        JmsConfiguration configuration = new JmsConfiguration(factory);
-        ActiveMQComponent component = new ActiveMQComponent();
-        component.setConfiguration(configuration);
-        return component;
-    }
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
+    }
+
+    @Bean(name = "amqpws")
+    public AMQPComponent amqpComponent() {
+        JmsConnectionFactory qpid = new JmsConnectionFactory(userName, password, brokerUrl);
+        return new AMQPComponent(qpid);
     }
 }

@@ -1,0 +1,23 @@
+{
+  "properties": [
+    {
+      "name": "amq.brokerURL",
+      "type": "java.lang.String",
+      "description": "Description for amq.brokerURL."
+    },
+    {
+      "name": "amq.userName",
+      "type": "java.lang.String",
+      "description": "Description for amq.userName."
+    },
+    {
+      "name": "amq.password",
+      "type": "java.lang.String",
+      "description": "Description for amq.password."
+    },
+    {
+      "name": "queue.test",
+      "type": "java.lang.String",
+      "description": "Description for queue.test."
+    }
+  ] }

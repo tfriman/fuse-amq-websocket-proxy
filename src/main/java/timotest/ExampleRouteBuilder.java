@@ -8,19 +8,19 @@ import java.util.Date;
 
 @Component
 public class ExampleRouteBuilder extends RouteBuilder {
-    public static final String ROUTE_ID = "exampleRoute";
 
     @Override
-    public void configure() throws Exception {
+    public void configure() {
 
-        from("timer://foo?fixedRate=true&period=60000")
-                .log("timer fired ${body}")
+        from("timer://foo?fixedRate=true&period=10000")
+                .routeId("timerRoute")
                 .transform(simple("value " + new Date()))
-                .to("amqpws://localhost:5672/testamqp")
+                .log("timer fired, sending ${body}")
+                .to("{{queue.test}}")
                 .end();
 
-        from("amqpws://localhost:5672/testamqp")
-                .routeId(ROUTE_ID)
+        from("{{queue.test}}")
+                .routeId("consumerRoute")
                 .streamCaching()
                 .log(LoggingLevel.INFO, "got message ${body}")
                 .end();
